@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Split PDF | SmartTools Hub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .converter-container {
+            max-width: 800px;
+            margin: 65px auto;
+            padding: 25px;
+        }
+
+        .converter-box {
+            padding: 35px;
+            background: white;
+            border: 1px solid #e6eaf2;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .upload-area {
+            padding: 30px 20px;
+            border: 2px dashed #bdccff;
+            border-radius: 14px;
+            background: #f7f9ff;
+        }
+
+        .upload-area input[type="file"] {
+            margin-top: 15px;
+        }
+
+        .page-inputs {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .page-inputs div {
+            flex: 1;
+            text-align: left;
+        }
+
+        .page-inputs input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #d9deeb;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .convert-button {
+            margin-top: 25px;
+            padding: 14px 25px;
+            background: #315efb;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .convert-button:hover {
+            background: #2448d8;
+        }
+
+        .error-message {
+            margin-top: 20px;
+            padding: 12px;
+            color: #b42318;
+            background: #fff0ee;
+            border-radius: 8px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #315efb;
+        }
+
+        @media (max-width: 600px) {
+            .page-inputs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">S</span>
+            SmartTools <span class="logo-highlight">Hub</span>
+        </a>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/#pdf-tools">PDF Tools</a>
+            <a href="/#image-tools">Image Tools</a>
+        </nav>
+    </header>
+
+    <main class="converter-container">
+
+        <a href="/" class="back-link">← Back to all tools</a>
+
+        <section class="converter-box">
+
+            <h1>Split PDF</h1>
+
+            <p>Extract the pages you need from a PDF document.</p>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="upload-area">
+                    <h3>Select Your PDF</h3>
+
+                    <p>Choose a PDF document to split.</p>
+
+                    <input
+                        type="file"
+                        name="pdf"
+                        accept=".pdf,application/pdf"
+                        required>
+                </div>
+
+                <div class="page-inputs">
+
+                    <div>
+                        <label for="start_page">Start page</label>
+                        <input
+                            type="number"
+                            id="start_page"
+                            name="start_page"
+                            min="1"
+                            value="1"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="end_page">End page</label>
+                        <input
+                            type="number"
+                            id="end_page"
+                            name="end_page"
+                            min="1"
+                            value="1"
+                            required>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="convert-button">
+                    Split PDF
+                </button>
+
+                {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                {% endif %}
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

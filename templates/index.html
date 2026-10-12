@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartTools Hub - Free Online Tools</title>
+
+    <meta name="description"
+          content="Use free online PDF, image, and productivity tools with SmartTools Hub.">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+
+        <a href="/" class="logo">
+            <span class="logo-icon">S</span>
+            SmartTools <span class="logo-highlight">Hub</span>
+        </a>
+
+        <nav>
+            <a href="#pdf-tools">PDF Tools</a>
+            <a href="#image-tools">Image Tools</a>
+            <a href="#about">About</a>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <!-- Hero Section -->
+        <section class="hero">
+
+            <div class="badge">
+                YOUR EVERYDAY DIGITAL TOOLKIT
+            </div>
+
+            <h1>
+                All Your Online Tools.<br>
+                <span>One Simple Place.</span>
+            </h1>
+
+            <p class="hero-description">
+                Merge PDFs, convert images, and simplify everyday tasks
+                with easy-to-use tools.
+            </p>
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="search"
+                    id="toolSearch"
+                    placeholder="Search for a tool..."
+                    aria-label="Search tools">
+
+                <button type="button" id="searchButton">
+                    Search
+                </button>
+
+            </div>
+
+            <p class="hero-note">
+                Simple tools · Easy to use · No account required
+            </p>
+
+        </section>
+
+        <!-- PDF Tools Section -->
+        <section class="tools-section" id="pdf-tools">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="section-label">DOCUMENT SOLUTIONS</p>
+
+                    <h2>PDF Tools</h2>
+
+                    <p class="section-description">
+                        Manage your PDF documents in a few simple steps.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="tools-grid">
+
+                <!-- Merge PDF -->
+                <a href="/merge-pdf"
+                   class="tool-card"
+                   data-name="merge pdf combine join documents">
+
+                    <div class="tool-icon purple">PDF+</div>
+
+                    <h3>Merge PDF</h3>
+
+                    <p>
+                        Combine multiple PDF files into one document.
+                    </p>
+
+                    <span class="tool-link">Open tool →</span>
+
+                </a>
+
+                <!-- Split PDF -->
+                <a href="/split-pdf"
+                   class="tool-card"
+                   data-name="split pdf separate pages">
+
+                    <div class="tool-icon orange">PDF÷</div>
+
+                    <h3>Split PDF</h3>
+
+                    <p>
+                        Separate selected pages from a PDF document.
+                    </p>
+
+                    <span class="tool-link">Open tool →</span>
+
+                </a>
+
+                <!-- Compress PDF -->
+                <a href="/compress-pdf"
+                   class="tool-card"
+                   data-name="compress pdf reduce file size">
+
+                    <div class="tool-icon green">PDF↓</div>
+
+                    <h3>Compress PDF</h3>
+
+                    <p>
+                        Reduce PDF file size where possible.
+                    </p>
+
+                    <span class="tool-link">Open tool →</span>
+
+                </a>
+
+                <!-- Image to PDF -->
+                <a href="/image-to-pdf"
+                   class="tool-card"
+                   data-name="image jpg png photo to pdf">
+
+                    <div class="tool-icon blue">IMG→</div>
+
+                    <h3>Image to PDF</h3>
+
+                    <p>
+                        Turn your images into a PDF document.
+                    </p>
+
+                    <span class="tool-link">Open tool →</span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- Image Tools Section -->
+        <section class="tools-section" id="image-tools">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="section-label">IMAGE SOLUTIONS</p>
+
+                    <h2>Image Tools</h2>
+
+                    <p class="section-description">
+                        Convert and manage your images easily.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="tools-grid">
+
+                <!-- JPG to PNG -->
+                <a href="/jpg-to-png"
+                   class="tool-card"
+                   data-name="jpg jpeg to png image converter">
+
+                    <div class="tool-icon pink">JPG</div>
+
+                    <h3>JPG to PNG</h3>
+
+                    <p>
+                        Convert JPG images into PNG format.
+                    </p>
+
+                    <span class="tool-link">Open tool →</span>
+
+                </a>
+
+                <!-- Image Compressor - Corrected Link -->
+                <a href="/compress-image"
+                   class="tool-card"
+                   data-name="image compressor compress photo reduce image size">
+
+                    <div class="tool-icon yellow">IMG↓</div>
+
+                    <h3>Image Compressor</h3>
+
+                    <p>
+                        Reduce image file size for easier sharing.
+                    </p>
+
+                    <span class="tool-link">Open tool →</span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+
+            <p class="section-label">
+                WHY SMARTTOOLS HUB?
+            </p>
+
+            <h2>Less effort. More productivity.</h2>
+
+            <p>
+                Our goal is to make everyday digital tasks simple,
+                convenient, and accessible from your browser.
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+
+        <a href="/" class="footer-logo">
+            SmartTools Hub
+        </a>
+
+        <p>
+            Simple online tools for everyday tasks.
+        </p>
+
+        <p class="copyright">
+            © 2026 SmartTools Hub. All rights reserved.
+        </p>
+
+    </footer>
+
+    <!-- Tool Search -->
+    <script>
+
+        const searchInput = document.getElementById("toolSearch");
+        const searchButton = document.getElementById("searchButton");
+        const cards = document.querySelectorAll(".tool-card");
+
+        function searchTools() {
+
+            const query = searchInput.value.trim().toLowerCase();
+
+            let firstMatch = null;
+
+            cards.forEach(card => {
+
+                const searchableText =
+                    card.innerText.toLowerCase() + " " +
+                    (card.dataset.name || "").toLowerCase();
+
+                const matches = searchableText.includes(query);
+
+                card.style.display = matches ? "" : "none";
+
+                if (matches && !firstMatch) {
+                    firstMatch = card;
+                }
+
+            });
+
+            if (firstMatch && query) {
+
+                firstMatch.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
+
+        }
+
+        searchButton.addEventListener("click", searchTools);
+
+        searchInput.addEventListener("input", () => {
+
+            if (searchInput.value.trim() === "") {
+
+                cards.forEach(card => {
+                    card.style.display = "";
+                });
+
+            } else {
+
+                searchTools();
+
+            }
+
+        });
+
+        searchInput.addEventListener("keydown", event => {
+
+            if (event.key === "Enter") {
+                searchTools();
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

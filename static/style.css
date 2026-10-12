@@ -1,0 +1,579 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #315efb;
+    --primary-dark: #2448d8;
+    --text: #172033;
+    --muted: #68738a;
+    --background: #f7f9ff;
+    --border: #e6eaf2;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    color: var(--text);
+    background: var(--background);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar {
+    min-height: 76px;
+    padding: 16px 8%;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 21px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.logo-highlight {
+    color: var(--primary);
+    margin-left: -7px;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navbar nav a {
+    color: #505b70;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.navbar nav a:hover {
+    color: var(--primary);
+}
+
+.hero {
+    padding: 86px 20px 76px;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at top, #e8efff 0%, transparent 65%),
+        var(--background);
+}
+
+.badge {
+    display: inline-block;
+    padding: 7px 14px;
+    border: 1px solid #d7e2ff;
+    border-radius: 30px;
+    background: #ffffff;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+}
+
+.hero h1 {
+    margin-top: 25px;
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: 1.14;
+    letter-spacing: -2px;
+    font-weight: 800;
+}
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+.hero-description {
+    max-width: 590px;
+    margin: 22px auto 30px;
+    color: var(--muted);
+    font-size: 16px;
+}
+
+.search-box {
+    width: min(620px, 100%);
+    min-height: 64px;
+    margin: 0 auto;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(31, 55, 110, 0.08);
+}
+
+.search-box > span {
+    padding-left: 12px;
+    color: var(--muted);
+    font-size: 26px;
+}
+
+.search-box input {
+    min-width: 0;
+    flex: 1;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+}
+
+.search-box button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: var(--primary-dark);
+}
+
+.hero-note {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.tools-section {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 55px 25px;
+    scroll-margin-top: 25px;
+}
+
+.section-heading {
+    margin-bottom: 27px;
+}
+
+.section-label {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.section-heading h2,
+.about-section h2 {
+    margin-top: 7px;
+    font-size: 30px;
+    letter-spacing: -0.8px;
+}
+
+.section-description {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.tool-card {
+    min-height: 225px;
+    padding: 25px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.tool-card:hover {
+    transform: translateY(-4px);
+    border-color: #bdccff;
+    box-shadow: 0 14px 30px rgba(31, 55, 110, 0.08);
+}
+
+.tool-icon {
+    width: 52px;
+    height: 48px;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.purple {
+    background: #eee8ff;
+    color: #7041d8;
+}
+
+.orange {
+    background: #fff0e3;
+    color: #e57825;
+}
+
+.green {
+    background: #e1f8eb;
+    color: #179755;
+}
+
+.blue {
+    background: #e4efff;
+    color: #2862d9;
+}
+
+.pink {
+    background: #ffe8f0;
+    color: #d4427c;
+}
+
+.yellow {
+    background: #fff5d7;
+    color: #a77a00;
+}
+
+.tool-card h3 {
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+.tool-card p {
+    min-height: 45px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.tool-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.about-section {
+    margin: 25px auto 70px;
+    max-width: 900px;
+    padding: 60px 25px;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.about-section > p:last-child {
+    max-width: 570px;
+    margin: 14px auto 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+footer {
+    padding: 38px 20px;
+    text-align: center;
+    background: #ffffff;
+    border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+footer p {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+footer .copyright {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+@media (max-width: 850px) {
+    .navbar {
+        padding: 16px 5%;
+    }
+
+    .navbar nav {
+        gap: 16px;
+    }
+
+    .tools-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .navbar nav {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .navbar nav a {
+        font-size: 12px;
+    }
+
+    .hero {
+        padding: 65px 20px;
+    }
+
+    .hero h1 {
+        letter-spacing: -1px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+    }
+
+    .search-box {
+        gap: 6px;
+    }
+
+    .search-box button {
+        padding: 11px 13px;
+    }
+
+    .tools-section {
+        padding: 35px 18px;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tool-card {
+        min-height: auto;
+    }
+
+    .about-section {
+        margin: 10px 18px 45px;
+        padding: 40px 20px;
+    }
+}
+/* ==================================
+   SMARTTOOLS HUB RESPONSIVE DESIGN
+   ================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+    max-width: 100%;
+    font: inherit;
+}
+
+/* Navigation */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    padding: 16px 5%;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.navbar a {
+    overflow-wrap: anywhere;
+}
+
+/* Main containers */
+
+.container,
+.converter-container,
+main {
+    max-width: 100%;
+}
+
+/* Tool grids */
+
+.tools-grid,
+.tool-grid,
+.tools-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Tablet screens */
+
+@media (max-width: 900px) {
+    .navbar {
+        padding: 15px 4%;
+    }
+
+    .navbar nav {
+        gap: 14px;
+    }
+
+    .converter-container {
+        margin-top: 35px;
+        padding: 20px;
+    }
+}
+
+/* Mobile screens */
+
+@media (max-width: 600px) {
+    body {
+        font-size: 15px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .navbar .logo {
+        font-size: 21px;
+    }
+
+    .navbar nav {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+    }
+
+    .navbar nav a {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 27px;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    h2 {
+        font-size: 23px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .converter-container {
+        width: 100%;
+        margin: 25px auto;
+        padding: 12px;
+    }
+
+    .converter-box {
+        width: 100%;
+        padding: 22px 16px;
+        border-radius: 14px;
+    }
+
+    .upload-area {
+        padding: 22px 12px;
+    }
+
+    .upload-area input[type="file"] {
+        width: 100%;
+        min-width: 0;
+        font-size: 13px;
+    }
+
+    .convert-button {
+        width: 100%;
+        min-height: 48px;
+        padding: 13px 16px;
+    }
+
+    .back-link {
+        margin-bottom: 15px;
+    }
+
+    .info-box {
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .tool-card,
+    .tool-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    input,
+    select,
+    textarea {
+        min-width: 0;
+    }
+}

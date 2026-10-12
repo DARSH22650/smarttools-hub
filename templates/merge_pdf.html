@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Merge PDF | SmartTools Hub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .converter-container {
+            max-width: 800px;
+            margin: 65px auto;
+            padding: 25px;
+        }
+
+        .converter-box {
+            padding: 35px;
+            background: white;
+            border: 1px solid #e6eaf2;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .converter-box h1 {
+            margin-bottom: 12px;
+        }
+
+        .converter-box p {
+            color: #68738a;
+            margin-bottom: 25px;
+        }
+
+        .upload-area {
+            padding: 35px 20px;
+            border: 2px dashed #bdccff;
+            border-radius: 14px;
+            background: #f7f9ff;
+        }
+
+        .upload-area input {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .convert-button {
+            margin-top: 25px;
+            padding: 14px 25px;
+            background: #315efb;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .convert-button:hover {
+            background: #2448d8;
+        }
+
+        .error-message {
+            margin-top: 20px;
+            padding: 12px;
+            color: #b42318;
+            background: #fff0ee;
+            border-radius: 8px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #315efb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">S</span>
+            SmartTools <span class="logo-highlight">Hub</span>
+        </a>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/#pdf-tools">PDF Tools</a>
+            <a href="/#image-tools">Image Tools</a>
+        </nav>
+    </header>
+
+    <main class="converter-container">
+
+        <a href="/" class="back-link">← Back to all tools</a>
+
+        <section class="converter-box">
+
+            <h1>Merge PDF Files</h1>
+
+            <p>
+                Combine multiple PDF documents into one file.
+            </p>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="upload-area">
+                    <h3>Select Your PDF Files</h3>
+
+                    <p>
+                        Choose at least two PDF documents to combine.
+                    </p>
+
+                    <input
+                        type="file"
+                        name="pdfs"
+                        accept=".pdf,application/pdf"
+                        multiple
+                        required>
+                </div>
+
+                <button type="submit" class="convert-button">
+                    Merge PDF Files
+                </button>
+
+            </form>
+
+            {% if error %}
+                <div class="error-message">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>

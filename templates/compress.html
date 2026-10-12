@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Image Compressor | SmartTools Hub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .converter-container {
+            max-width: 800px;
+            margin: 65px auto;
+            padding: 25px;
+        }
+
+        .converter-box {
+            padding: 35px;
+            background: white;
+            border: 1px solid #e6eaf2;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .upload-area {
+            padding: 30px 20px;
+            border: 2px dashed #bdccff;
+            border-radius: 14px;
+            background: #f7f9ff;
+        }
+
+        .upload-area input {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .quality-control {
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .quality-control label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .quality-control input {
+            width: 100%;
+        }
+
+        .convert-button {
+            margin-top: 25px;
+            padding: 14px 25px;
+            background: #315efb;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .error-message {
+            margin-top: 20px;
+            padding: 12px;
+            color: #b42318;
+            background: #fff0ee;
+            border-radius: 8px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #315efb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">S</span>
+            SmartTools <span class="logo-highlight">Hub</span>
+        </a>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/#pdf-tools">PDF Tools</a>
+            <a href="/#image-tools">Image Tools</a>
+        </nav>
+    </header>
+
+    <main class="converter-container">
+
+        <a href="/" class="back-link">← Back to all tools</a>
+
+        <section class="converter-box">
+
+            <h1>Image Compressor</h1>
+
+            <p>Reduce image file size for easier sharing.</p>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="upload-area">
+                    <h3>Select Your Image</h3>
+
+                    <p>Choose a JPG, JPEG, or PNG image.</p>
+
+                    <input
+                        type="file"
+                        name="image"
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                        required>
+                </div>
+
+                <div class="quality-control">
+                    <label for="quality">
+                        Compression quality: <span id="qualityValue">60</span>%
+                    </label>
+
+                    <input
+                        type="range"
+                        id="quality"
+                        name="quality"
+                        min="20"
+                        max="95"
+                        value="60"
+                        oninput="document.getElementById('qualityValue').textContent=this.value">
+                </div>
+
+                <button type="submit" class="convert-button">
+                    Compress Image
+                </button>
+
+                {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                {% endif %}
+
+                {% if original_size is defined and compressed_size is defined %}
+                    <div style="margin-top:25px;">
+                        <h3>Compression Results</h3>
+                        <p>Original size: {{ original_size }}</p>
+                        <p>Compressed size: {{ compressed_size }}</p>
+                        <p>{{ savings }}% size reduction</p>
+
+                        <a href="{{ url_for('download_compressed') }}">
+                            Download Compressed Image
+                        </a>
+                    </div>
+                {% endif %}
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
