@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, session
+from flask import Flask, render_template, request, send_file, session, Response
 from PIL import Image, UnidentifiedImageError
 from pypdf import PdfWriter, PdfReader
 from io import BytesIO
@@ -11,18 +11,56 @@ app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 
 COMPRESSED_FILES = {}
 
+BASE_URL = "https://smarttools-hub.onrender.com"
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+@app.route("/sitemap.xml")
+def sitemap():
+    pages = [
+        "/",
+        "/image-to-pdf",
+        "/merge-pdf",
+        "/split-pdf",
+        "/compress-pdf",
+        "/compress-image",
+        "/jpg-to-png",
+    ]
+
+    urls = "".join(
+        f"<url><loc>{BASE_URL}{page}</loc></url>"
+        for page in pages
+    )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        f"{urls}"
+        "</urlset>"
+    )
+
+    return Response(xml, mimetype="application/xml")
+
+
+@app.route("/robots.txt")
+def robots():
+    content = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"Sitemap: {BASE_URL}/sitemap.xml\n"
+    )
+
+    return Response(content, mimetype="text/plain")
+
+
 # IMAGE TO PDF
 @app.route("/image-to-pdf", methods=["GET", "POST"])
 def image_to_pdf():
-
     if request.method == "POST":
-
         files = [
             file for file in request.files.getlist("images")
             if file.filename
@@ -44,7 +82,6 @@ def image_to_pdf():
 
         try:
             for file in files:
-
                 image = Image.open(file.stream)
 
                 if image.format not in ("JPEG", "PNG"):
@@ -90,7 +127,6 @@ def image_to_pdf():
 
         except Exception:
             app.logger.exception("Image to PDF conversion failed")
-
             return render_template(
                 "image_to_pdf.html",
                 error="Conversion failed. Please try different images."
@@ -106,9 +142,7 @@ def image_to_pdf():
 # MERGE PDF
 @app.route("/merge-pdf", methods=["GET", "POST"])
 def merge_pdf():
-
     if request.method == "POST":
-
         files = [
             file for file in request.files.getlist("pdfs")
             if file.filename
@@ -131,7 +165,6 @@ def merge_pdf():
 
         try:
             for file in files:
-
                 if not file.filename.lower().endswith(".pdf"):
                     return render_template(
                         "merge_pdf.html",
@@ -152,7 +185,6 @@ def merge_pdf():
 
         except Exception:
             app.logger.exception("PDF merging failed")
-
             return render_template(
                 "merge_pdf.html",
                 error="Unable to merge these PDFs. Check that they are valid and not password-protected."
@@ -167,9 +199,7 @@ def merge_pdf():
 # SPLIT PDF
 @app.route("/split-pdf", methods=["GET", "POST"])
 def split_pdf():
-
     if request.method == "POST":
-
         pdf_file = request.files.get("pdf")
         start_page = request.form.get("start_page", type=int)
         end_page = request.form.get("end_page", type=int)
@@ -219,7 +249,6 @@ def split_pdf():
                 writer.add_page(reader.pages[page_number])
 
             output = BytesIO()
-
             writer.write(output)
             writer.close()
             output.seek(0)
@@ -233,7 +262,6 @@ def split_pdf():
 
         except Exception:
             app.logger.exception("PDF splitting failed")
-
             return render_template(
                 "split.html",
                 error="Unable to split this PDF. Please try another file."
@@ -245,9 +273,7 @@ def split_pdf():
 # COMPRESS PDF
 @app.route("/compress-pdf", methods=["GET", "POST"])
 def compress_pdf():
-
     if request.method == "POST":
-
         pdf_file = request.files.get("pdf")
 
         if not pdf_file or not pdf_file.filename:
@@ -271,8 +297,6 @@ def compress_pdf():
                     error="The selected file is empty."
                 )
 
-            original_size = len(original_data)
-
             reader = PdfReader(BytesIO(original_data))
 
             if reader.is_encrypted:
@@ -290,25 +314,11 @@ def compress_pdf():
                 page.compress_content_streams()
 
             output = BytesIO()
-
             writer.write(output)
             writer.close()
 
             compressed_data = output.getvalue()
             output.close()
-
-            compressed_size = len(compressed_data)
-
-            original_size_text = f"{original_size / 1024:.2f} KB"
-            compressed_size_text = f"{compressed_size / 1024:.2f} KB"
-
-            if original_size > 0:
-                reduction = round(
-                    (1 - compressed_size / original_size) * 100,
-                    2
-                )
-            else:
-                reduction = 0
 
             return send_file(
                 BytesIO(compressed_data),
@@ -319,7 +329,6 @@ def compress_pdf():
 
         except Exception:
             app.logger.exception("PDF compression failed")
-
             return render_template(
                 "compress_pdf.html",
                 error="Unable to process this PDF. Please try another file."
@@ -331,9 +340,7 @@ def compress_pdf():
 # IMAGE COMPRESSOR
 @app.route("/compress-image", methods=["GET", "POST"])
 def compress_image():
-
     if request.method == "POST":
-
         image_file = request.files.get("image")
         quality = request.form.get("quality", default=60, type=int)
 
@@ -365,7 +372,6 @@ def compress_image():
                 )
 
             with Image.open(BytesIO(original_data)) as source_image:
-
                 if source_image.format not in ("JPEG", "PNG"):
                     return render_template(
                         "compress.html",
@@ -376,38 +382,29 @@ def compress_image():
                 image = source_image.convert("RGB")
 
             output = BytesIO()
-
             image.save(
                 output,
                 format="JPEG",
                 quality=quality,
                 optimize=True
             )
-
             image.close()
 
             compressed_data = output.getvalue()
             output.close()
 
             compressed_size = len(compressed_data)
-
             token = secrets.token_urlsafe(24)
             COMPRESSED_FILES[token] = compressed_data
             session["compressed_token"] = token
 
-            original_size_text = f"{original_size / 1024:.2f} KB"
-            compressed_size_text = f"{compressed_size / 1024:.2f} KB"
-
-            savings = round(
-                (1 - compressed_size / original_size) * 100,
-                2
-            ) if original_size else 0
-
             return render_template(
                 "compress.html",
-                original_size=original_size_text,
-                compressed_size=compressed_size_text,
-                savings=savings
+                original_size=f"{original_size / 1024:.2f} KB",
+                compressed_size=f"{compressed_size / 1024:.2f} KB",
+                savings=round(
+                    (1 - compressed_size / original_size) * 100, 2
+                )
             )
 
         except (UnidentifiedImageError, OSError):
@@ -418,7 +415,6 @@ def compress_image():
 
         except Exception:
             app.logger.exception("Image compression failed")
-
             return render_template(
                 "compress.html",
                 error="Unable to compress this image. Please try again."
@@ -430,7 +426,6 @@ def compress_image():
 # DOWNLOAD COMPRESSED IMAGE
 @app.route("/download-compressed")
 def download_compressed():
-
     token = session.get("compressed_token")
     compressed_data = COMPRESSED_FILES.get(token)
 
@@ -451,11 +446,13 @@ def download_compressed():
 # FILE SIZE ERROR
 @app.errorhandler(413)
 def file_too_large(error):
-
     return (
         "Your uploaded files exceed the 50 MB limit. Please select smaller files.",
         413
     )
+
+
+# JPG TO PNG
 @app.route("/jpg-to-png", methods=["GET", "POST"])
 def jpg_to_png():
     if request.method == "POST":
@@ -468,17 +465,16 @@ def jpg_to_png():
             )
 
         try:
-            image = Image.open(file.stream)
+            with Image.open(file.stream) as image:
+                if image.format != "JPEG":
+                    return render_template(
+                        "jpg_to_png.html",
+                        error="Please upload a JPG or JPEG image."
+                    )
 
-            if image.format not in ["JPEG", "JPG"]:
-                return render_template(
-                    "jpg_to_png.html",
-                    error="Please upload a JPG or JPEG image."
-                )
-
-            output = BytesIO()
-            image.convert("RGB").save(output, format="PNG")
-            output.seek(0)
+                output = BytesIO()
+                image.convert("RGB").save(output, format="PNG")
+                output.seek(0)
 
             return send_file(
                 output,
@@ -494,6 +490,8 @@ def jpg_to_png():
             )
 
     return render_template("jpg_to_png.html", error=None)
+
+
 # RUN WEBSITE
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
