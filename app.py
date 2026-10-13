@@ -14,11 +14,13 @@ COMPRESSED_FILES = {}
 BASE_URL = "https://smarttools-hub.onrender.com"
 
 
+# HOME PAGE
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# SITEMAP
 @app.route("/sitemap.xml")
 def sitemap():
     pages = [
@@ -37,15 +39,20 @@ def sitemap():
     )
 
     xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
         f"{urls}"
         "</urlset>"
     )
 
-    return Response(xml, mimetype="application/xml")
+    return Response(
+        xml,
+        status=200,
+        content_type="application/xml; charset=utf-8"
+    )
 
 
+# ROBOTS TXT
 @app.route("/robots.txt")
 def robots():
     content = (
@@ -54,7 +61,26 @@ def robots():
         f"Sitemap: {BASE_URL}/sitemap.xml\n"
     )
 
-    return Response(content, mimetype="text/plain")
+    response = Response(
+        content,
+        status=200,
+        content_type="text/plain; charset=utf-8"
+    )
+
+    response.headers["Cache-Control"] = (
+        "no-cache, no-store, must-revalidate"
+    )
+
+    return response
+
+
+# WEBSITE HEALTH CHECK
+@app.route("/health")
+def health():
+    return {
+        "status": "ok",
+        "website": "SmartTools Hub"
+    }, 200
 
 
 # IMAGE TO PDF
@@ -187,7 +213,10 @@ def merge_pdf():
             app.logger.exception("PDF merging failed")
             return render_template(
                 "merge_pdf.html",
-                error="Unable to merge these PDFs. Check that they are valid and not password-protected."
+                error=(
+                    "Unable to merge these PDFs. Check that they are valid "
+                    "and not password-protected."
+                )
             )
 
         finally:
@@ -316,12 +345,10 @@ def compress_pdf():
             output = BytesIO()
             writer.write(output)
             writer.close()
-
-            compressed_data = output.getvalue()
-            output.close()
+            output.seek(0)
 
             return send_file(
-                BytesIO(compressed_data),
+                output,
                 mimetype="application/pdf",
                 as_attachment=True,
                 download_name="compressed_document.pdf"
@@ -382,12 +409,14 @@ def compress_image():
                 image = source_image.convert("RGB")
 
             output = BytesIO()
+
             image.save(
                 output,
                 format="JPEG",
                 quality=quality,
                 optimize=True
             )
+
             image.close()
 
             compressed_data = output.getvalue()
@@ -395,6 +424,7 @@ def compress_image():
 
             compressed_size = len(compressed_data)
             token = secrets.token_urlsafe(24)
+
             COMPRESSED_FILES[token] = compressed_data
             session["compressed_token"] = token
 
@@ -431,7 +461,8 @@ def download_compressed():
 
     if not compressed_data:
         return (
-            "Your compressed image is no longer available. Please compress it again.",
+            "Your compressed image is no longer available. "
+            "Please compress it again.",
             404
         )
 
@@ -447,7 +478,8 @@ def download_compressed():
 @app.errorhandler(413)
 def file_too_large(error):
     return (
-        "Your uploaded files exceed the 50 MB limit. Please select smaller files.",
+        "Your uploaded files exceed the 50 MB limit. "
+        "Please select smaller files.",
         413
     )
 
@@ -492,6 +524,6 @@ def jpg_to_png():
     return render_template("jpg_to_png.html", error=None)
 
 
-# RUN WEBSITE
+# RUN WEBSITE LOCALLY
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
